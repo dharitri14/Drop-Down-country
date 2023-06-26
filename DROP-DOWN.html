@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dropdown</title>
+    <style>
+      body{
+        padding: 20px;
+        margin: 300px 600px;
+        text-align: center;
+        border: 5px solid royalblue;
+        background-color:thistle;
+        border-radius: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="country">Country:</label>
+    <select id="country" name="country" onchange="findStates()">
+      <option value="">Select a country</option>
+    </select><br/><br/>
+
+    <label for="state">State:</label>
+    <select id="state" name="state" onchange="findCities()">
+      <option value="">Select a state</option>
+    </select> <br/><br/>
+
+    <label for="city">City:</label>
+    <select id="city" name="city">
+      <option value="">Select a city</option>
+    </select> <br/><br/>
+
+    <button onclick="onButtonClick()">Submit</button>
+    <p id="line"></p>
+
+    <script>
+              const countries = [
+                  { id: 1, name: 'India' },
+                  { id: 2, name: 'Canada' },
+                  { id: 3, name: 'USA' },
+                  { id: 4, name: 'Germany' },
+                  { id: 5, name: 'China' }
+              ];
+              const states = [
+                  { id: 1, name: 'Maharashtra', country_id: 1 },
+                  { id: 2, name: 'TamilNadu', country_id: 1 },
+                  { id: 3, name: 'Odisha', country_id: 1 },
+                  { id: 4, name: 'Gujarat', country_id: 1 },
+                  { id: 5, name: 'Rajasthan', country_id: 1 },
+
+                  { id: 6, name: 'Alberta', country_id: 2 },
+                  { id: 7, name: 'BritishColumbia', country_id: 2 },
+                  { id: 8, name: 'NewBrunswick', country_id: 2 },
+                  { id: 9, name: 'Nunavut', country_id: 2 },
+                  { id: 10, name: 'Manitoba', country_id: 2 },
+
+                  { id: 11, name: 'California', country_id: 3 },
+                  { id: 12, name: 'Texas', country_id: 3 },
+                  { id: 13, name: 'Florida', country_id: 3 },
+                  { id: 14, name: 'Alaska', country_id: 3 },
+                  { id: 15, name: 'Maryland', country_id: 3 },
+
+                  { id: 16, name: 'Bavaria', country_id: 4 },
+                  { id: 17, name: 'NorthRhine', country_id: 4 },
+                  { id: 18, name: 'Berlin', country_id: 4 },
+                  { id: 19, name: 'Hesse', country_id: 4 },
+                  { id: 20, name: 'Hamburg', country_id: 4 },
+
+                  { id: 21, name: 'InnerMongolia', country_id: 5 },
+                  { id: 22, name: 'Guangxi', country_id: 5 },
+                  { id: 23, name: 'Tibet', country_id: 5 },
+                  { id: 24, name: 'Ningxia', country_id: 5 },
+                  { id: 25, name: 'Xinjiang', country_id: 5 }
+                  ];
+              const cities = [
+                  { id: 1, name: 'Mumbai', state_id: 1 },
+                  { id: 2, name: 'Pune', state_id: 1 },
+
+                  { id: 3, name: 'Chennai', state_id: 2 },
+                  { id: 4, name: 'Madurai', state_id: 2 },
+
+                  { id: 5, name: 'Puri', state_id: 3 },
+                  { id: 6, name: 'Bhubaneswar', state_id: 3 },
+
+                  { id: 7, name: 'Ahmedabad', state_id: 4 },
+                  { id: 8, name: 'Surat', state_id: 4 },
+
+                  { id: 9, name: 'Jaipur', state_id: 5 },
+                  { id: 10, name: 'Udaipur', state_id: 5 },
+
+                  { id: 11, name: 'Calgary', state_id: 6 },
+                  { id: 12, name: 'Edmonton', state_id: 6 },
+
+                  { id: 13, name: 'Vancouver', state_id: 7 },
+                  { id: 14, name: 'Kelowna', state_id: 7 },
+
+                  { id: 15, name: 'Fredericton', state_id: 8 },
+                  { id: 16, name: 'Dieppe', state_id: 8 },
+
+                  { id: 17, name: 'Iqaluit', state_id: 9 },
+                  { id: 18, name: 'Pangnirtung', state_id: 9 },
+
+                  { id: 19, name: 'Winnipeg', state_id: 10 },
+                  { id: 20, name: 'Brandon', state_id: 10 },
+
+                  { id: 21, name: 'Los Angeles', state_id: 11 },
+                  { id: 22, name: 'Sacramento', state_id: 11 },
+
+                  { id: 23, name: 'Houston', state_id: 12 },
+                  { id: 24, name: 'Austin', state_id: 12 },
+
+                  { id: 25, name: 'Miami', state_id: 13 },
+                  { id: 26, name: 'Orlando', state_id: 13 },
+
+                  { id: 27, name: 'Juneau', state_id: 14 },
+                  { id: 28, name: 'Kake', state_id: 14 },
+
+                  { id: 29, name: 'Annapolis', state_id: 15 },
+                  { id: 30, name: 'Rockville', state_id: 15 },
+
+                  { id: 31, name: 'Munich', state_id: 16 },
+                  { id: 32, name: 'Nuremberg', state_id: 16 },
+
+                  { id: 33, name: 'Cologne', state_id: 17 },
+                  { id: 34, name: 'Düsseldorf', state_id: 17 },
+
+                  { id: 35, name: 'Wilmersdorf', state_id: 18 },
+                  { id: 36, name: 'Kreuzberg', state_id: 18 },
+
+                  { id: 37, name: 'Lorch', state_id: 19 },
+                  { id: 38, name: 'Eltville', state_id: 19 },
+
+                  { id: 39, name: 'Mitte', state_id: 20 },
+                  { id: 40, name: 'Eimsbüttel', state_id: 20 },
+
+                  { id: 41, name: 'Hohhot', state_id: 21 },
+                  { id: 42, name: 'Hulunbuir', state_id: 21 },
+
+                  { id: 43, name: 'Nanning', state_id: 22 },
+                  { id: 44, name: 'Liuzhou', state_id: 22 },
+
+                  { id: 45, name: 'Lhasa', state_id: 23 },
+                  { id: 46, name: 'Shigatse', state_id: 23 },
+
+                  { id: 47, name: 'Yinchuan', state_id: 24 },
+                  { id: 48, name: 'Lingwu', state_id: 24 },
+
+                  { id: 49, name: 'Ürümqi', state_id: 25 },
+                  { id: 50, name: 'Korla', state_id: 25 }
+                  ];
+      const countryDropdown = document.getElementById('country');
+      const stateDropdown = document.getElementById('state');
+      const cityDropdown = document.getElementById('city');
+
+      countries.forEach((country) => {
+        const option = document.createElement('option');
+        option.value = country.id;
+        option.text = country.name;
+        countryDropdown.appendChild(option);
+      });
+
+      function findStates() {
+        stateDropdown.innerHTML = '<option value="">Select a state</option>';
+        
+
+        const selectedCountryId = countryDropdown.value;
+        const filteredStates = states.filter(state => state.country_id == selectedCountryId);
+
+        filteredStates.forEach(state => {
+          const option = document.createElement('option');
+          option.value = state.id;
+          option.text = state.name;
+          stateDropdown.appendChild(option);
+        });
+      }
+ 
+      function findCities() {
+          cityDropdown.innerHTML = '<option value="">Select a city</option>';
+
+          const selectedStateId = stateDropdown.value;
+          const filteredCities = cities.filter(city => city.state_id == selectedStateId);
+
+          filteredCities.forEach(city => {
+              const option = document.createElement('option');
+              option.value = city.id;
+              option.text = city.name;
+              cityDropdown.appendChild(option);
+          });
+      }
+
+      function onButtonClick(){
+        const countrySelect = countryDropdown.options[countryDropdown.selectedIndex].text;
+        const stateSelect = stateDropdown.options[stateDropdown.selectedIndex].text;;
+        const citySelect = cityDropdown.options[cityDropdown.selectedIndex].text;;
+
+        if(countryDropdown.value==""){
+          alert("Select any COUNTRY!");
+          }
+        else if(stateDropdown.value==""){
+          alert("Select any STATE!");
+          }
+        else if(cityDropdown.value==""){
+          alert("Select any CITY!");
+          }
+        else{
+          document.getElementById("line").innerHTML = "Your country name is "+ countrySelect+ ","+ " state name is "+stateSelect+" and"+ " city name "+citySelect+"."
+        } 
+      }
+    </script>
+  </body>
+</html>
